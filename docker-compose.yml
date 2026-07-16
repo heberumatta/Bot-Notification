@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  bot_service:
+    build: ./Bot
+    container_name: telegram_bot
+    environment:
+      # Pega tu token real aquí (en un entorno corporativo real esto se lee de los secretos del servidor)
+      - TELEGRAM_TOKEN=TU_TOKEN_AQUI
+      - DB_PATH=/app/Data/bot_logs.db
+    volumes:
+      - ./Data:/app/Data
+    restart: unless-stopped
+
+  api_service:
+    build: ./API
+    container_name: csharp_api
+    environment:
+      - DB_PATH=/app/Data/bot_logs.db
+    ports:
+      - "5000:8080"
+    volumes:
+      - ./Data:/app/Data
+    restart: unless-stopped

@@ -1,0 +1,31 @@
+# =========================
+# Python (El Bot)
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# =========================
+# C# .NET (La API)
+# =========================
+API/bin/
+API/obj/
+API/appsettings.Development.json
+API/appsettings.json
+
+# =========================
+# Bases de datos y SO
+# =========================
+Data/*.db
+Data/*.sqlite
+
+.DS_Store
+Thumbs.db
+
+.vscode/
+.vs/
+*.user
+*.suo

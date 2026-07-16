@@ -1,14 +1,24 @@
 import sqlite3
 import telebot
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any, Tuple
 
 # --- Configuration ---
-API_TOKEN = '7973519968:AAGDoG0InjlgV-iO7kPHOSihX4igbgX1wA4' 
+# Load environment variables from .env file
+load_dotenv()
 
+# Extract the Telegram bot token from environment variables
+API_TOKEN = os.getenv('TELEGRAM_TOKEN')
+if not API_TOKEN:
+    raise ValueError("ERROR: Token not found")
+
+# Obtain the base directory and database path
 BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "Data" / "bot_logs.db"
+default_db_path = BASE_DIR / "Data" / "bot_logs.db"
+DB_PATH = Path(os.getenv('DB_PATH', default_db_path))
 
 bot = telebot.TeleBot(API_TOKEN)
 

@@ -10,7 +10,7 @@ string dbPath = Path.GetFullPath(dbRelativePath);
 string connectionString = $"Data Source={dbPath}";
 
 // --- Endpoint de Exposición ---
-app.MapGet("/api/logs", async () =>
+app.MapGet("/api/logs", async (int page = 1, int size = 10 ) =>
 {
     // Verificamos que la base de datos exista
     if (!File.Exists(dbPath))
@@ -18,6 +18,10 @@ app.MapGet("/api/logs", async () =>
         return Results.NotFound(new { message = "Database not found. Please interact with the Telegram bot first." });
     }
 
+    if (page < 1) page = 1;
+    if (size < 1 || size > 50) size = 10;
+
+    int offset = (page - 1) * size;
     var logs = new List<BotLog>();
 
     try
@@ -43,7 +47,7 @@ app.MapGet("/api/logs", async () =>
 
                     logs.Add(new BotLog(
                         reader.GetInt32(0),
-                        reader.GetInt32(1),
+                        reader.GetInt64(1),
                         username,
                         reader.GetString(3),
                         reader.GetString(4)
@@ -52,7 +56,12 @@ app.MapGet("/api/logs", async () =>
             }
         }
         
-        return Results.Ok(logs);
+        return Results.Ok(new
+        {
+            Page = page,
+            Size = size,
+            Data = logs
+        });
     }
     catch (Exception ex)
     {
@@ -63,4 +72,4 @@ app.MapGet("/api/logs", async () =>
 app.Run();
 
 // --- Data Transfer Object (DTO) ---
-public record BotLog(int Id, int TelegramUserId, string Username, string MessageText, string Timestamp);
+public record BotLog(int Id, long TelegramUserId, string Username, string MessageText, string Timestamp);
