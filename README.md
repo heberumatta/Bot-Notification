@@ -34,7 +34,7 @@ docker-compose up --build
 
 The Bot will start listening for messages on Telegram immediately, and the .NET API will be available on http://localhost:5000.
 
-### 📡 API Endpoints
+## 📡 API Endpoints
 `GET /api/logs`
 Retrieves paginated interaction logs.
 
@@ -62,5 +62,5 @@ Example Response:
   ]
 }
 ```
-### 👨‍💻 About the Developer
+## 👨‍💻 About the Developer
 Developed by an Information Systems Engineering student at UTN. With solid foundations in UML system design, theoretical SQL, and algorithmic logic, this project was built to showcase cross-ecosystem integration, secure credential management, and clean, scalable architectural principles for modern Backend and Data Engineering roles.
